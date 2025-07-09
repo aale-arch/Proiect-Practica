@@ -1,0 +1,8 @@
+{
+  "title": "Formular feedback",
+  "fields": [
+    {"label": "Nume", "type": "text", "name": "nume"},
+    {"label": "Email", "type": "email", "name": "email"},
+    {"label": "Mesaj", "type": "textarea", "name": "mesaj"}
+  ]
+}

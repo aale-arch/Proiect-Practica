@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ titlu }}</title>
+
+   <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-image: url("{{ url_for('static', filename='img/background.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        background-color: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(5px);
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        max-width: 90vw;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+        color: #444;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    button {
+        margin-top: 25px;
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <h1>{{ titlu }}</h1>
+        <form method="POST">
+            {% for field in form['fields'] %}
+                <label for="{{ field.name }}">{{ field.label }}</label>
+                {% if field.type == "textarea" %}
+                    <textarea id="{{ field.name }}" name="{{ field.name }}" required></textarea>
+                {% else %}
+                    <input type="{{ field.type }}" id="{{ field.name }}" name="{{ field.name }}" required>
+                {% endif %}
+            {% endfor %}
+            <button type="submit">Trimite</button>
+        </form>
+    </div>
+</body>
+</html>

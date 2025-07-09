@@ -1,0 +1,15 @@
+{
+  "titlu": "Sondaj de opinie",
+  "fields": [
+    {"name": "q1", "label": "1. Ce parere ai despre aplicatia noastra?", "type": "textarea"},
+    {"name": "q2", "label": "2. Ce functionalitate ti-a placut cel mai mult?", "type": "textarea"},
+    {"name": "q3", "label": "3. Ce ai imbunatati?", "type": "textarea"},
+    {"name": "q4", "label": "4. Ai recomanda aplicatia altora?", "type": "textarea"},
+    {"name": "q5", "label": "5. Cum ai aflat despre noi?", "type": "textarea"},
+    {"name": "q6", "label": "6. Ce platforma folosesti cel mai des?", "type": "textarea"},
+    {"name": "q7", "label": "7. Esti interesat(a) de actualizari viitoare?", "type": "textarea"},
+    {"name": "q8", "label": "8. Cat de des ai folosi aplicatia?", "type": "textarea"},
+    {"name": "q9", "label": "9. Ce alte functii ai dori sa adaugam?", "type": "textarea"},
+    {"name": "q10", "label": "10. Alte comentarii sau sugestii:", "type": "textarea"}
+  ]
+}

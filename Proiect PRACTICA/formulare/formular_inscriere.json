@@ -1,0 +1,9 @@
+{
+  "title": "Formular de înscriere",
+  "fields": [
+    {"label": "Prenume", "type": "text", "name": "prenume"},
+    {"label": "Nume", "type": "text", "name": "nume"},
+    {"label": "Email", "type": "email", "name": "email"},
+    {"label": "Telefon", "type": "text", "name": "telefon"}
+  ]
+}

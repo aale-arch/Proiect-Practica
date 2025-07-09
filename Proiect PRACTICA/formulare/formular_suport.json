@@ -1,0 +1,8 @@
+{
+  "title": "Solicitare suport",
+  "fields": [
+    {"label": "Nume complet", "type": "text", "name": "nume"},
+    {"label": "Email", "type": "email", "name": "email"},
+    {"label": "Descriere problema", "type": "textarea", "name": "problema"}
+  ]
+}

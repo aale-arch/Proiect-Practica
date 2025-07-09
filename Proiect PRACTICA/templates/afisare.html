@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Date salvate</title>
+</head>
+<body>
+    <h1>Răspunsuri salvate</h1>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>ID</th>
+            <th>Nume</th>
+            <th>Email</th>
+            <th>Mesaj</th>
+            <th>PDF</th>
+
+        </tr>
+        {% for rand in date %}
+        <tr>
+            <td>{{ rand[0] }}</td>
+            <td>{{ rand[1] }}</td>
+            <td>{{ rand[2] }}</td>
+            <td>{{ rand[3] }}</td>
+            <td><a href="/pdf/{{ rand[0] }}">Descarcă</a></td>
+
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

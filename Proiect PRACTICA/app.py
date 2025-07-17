@@ -25,7 +25,7 @@ def formular_din_tip(tip):
         conn = sqlite3.connect('data.db')
         cursor = conn.cursor()
 
-        # Creează tabel dacă nu există
+        # Creeaza tabel daca nu exista
         fields_sql = ', '.join([f"{key} TEXT" for key in data.keys()])
         placeholders = ', '.join(['?'] * len(data))
         cursor.execute(f'''
@@ -69,11 +69,11 @@ def genereaza_pdf(tip, id):
     pdf.cell(200, 10, txt=f"Formular completat ({tip})", ln=1, align='C')
     pdf.ln(10)
 
-    for i in range(1, len(coloane)):  # începem de la 1 pentru că id-ul e primul
+    for i in range(1, len(coloane)):  # incepem de la 1 pentru că id-ul e primul
         label = coloane[i].capitalize()
         value = str(rand[i])
 
-    # Dacă textul e mai lung de 50 caractere, folosim multi_cell
+    # Daca textul e mai lung de 50 caractere, folosim multi_cell
         if len(value) > 50:
             pdf.set_font("Arial", 'B', 12)
             pdf.cell(40, 10, f"{label}:", ln=1)
@@ -87,19 +87,51 @@ def genereaza_pdf(tip, id):
 
     return send_file(pdf_path, as_attachment=True)
 
-@app.route('/sterge_tot')
-def sterge_tot():
+# @app.route('/sterge_tot')
+# def sterge_tot():
+#     conn = sqlite3.connect('data.db')
+#     cursor = conn.cursor()
+#     cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'formular_%'")
+#     tabele = cursor.fetchall()
+
+#     for tabel in tabele:
+#         cursor.execute(f'DELETE FROM {tabel[0]}')
+
+#     conn.commit()
+#     conn.close()
+#     return "Toate înregistrările din toate formularele au fost șterse!"
+
+    
+@app.route('/autocomplete')
+def autocomplete():
+    email = request.args.get('email')
+    if not email:
+        return {}
+
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
+
+    # Cauta emailul in toate tabelele care incep cu "formular_"
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'formular_%'")
     tabele = cursor.fetchall()
 
     for tabel in tabele:
-        cursor.execute(f'DELETE FROM {tabel[0]}')
+        nume_tabel = tabel[0]
+        cursor.execute(f"PRAGMA table_info({nume_tabel})")
+        coloane = [col[1] for col in cursor.fetchall()]
 
-    conn.commit()
+        if 'email' in coloane:
+            cursor.execute(f"SELECT * FROM {nume_tabel} WHERE email = ? ORDER BY id DESC LIMIT 1", (email,))
+            rand = cursor.fetchone()
+            if rand:
+                date_autocompletare = dict(zip(coloane, rand))
+                date_autocompletare.pop('id', None)
+                conn.close()
+                return date_autocompletare
+
     conn.close()
-    return "Toate înregistrările din toate formularele au fost șterse!"
-    
+    return {}
+
+
 if __name__ == '__main__':
     app.run(debug=True)

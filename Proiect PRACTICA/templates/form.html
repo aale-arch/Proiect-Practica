@@ -77,19 +77,55 @@
 
 </head>
 <body>
-    <div class="container">
-        <h1>{{ titlu }}</h1>
-        <form method="POST">
-            {% for field in form['fields'] %}
-                <label for="{{ field.name }}">{{ field.label }}</label>
-                {% if field.type == "textarea" %}
-                    <textarea id="{{ field.name }}" name="{{ field.name }}" required></textarea>
-                {% else %}
-                    <input type="{{ field.type }}" id="{{ field.name }}" name="{{ field.name }}" required>
-                {% endif %}
-            {% endfor %}
-            <button type="submit">Trimite</button>
-        </form>
-    </div>
+<div class="container">
+    <h1>{{ titlu }}</h1>
+    <form method="POST">
+
+        {% for field in form['fields'] %}
+            <label for="{{ field.name }}">{{ field.label }}</label>
+
+            {% if field.name == "email" %}
+                <input type="{{ field.type }}" id="{{ field.name }}" name="{{ field.name }}"
+                       onblur="autofillFields()" required>
+
+            {% elif "telefon" in field.name.lower() %}
+                <input type="tel" id="{{ field.name }}" name="{{ field.name }}"
+                       pattern="[0-9]+" title="Numărul de telefon trebuie să conțină doar cifre"
+                       minlength="6" maxlength="15" required>
+
+            {% elif field.type == "textarea" %}
+                <textarea id="{{ field.name }}" name="{{ field.name }}" required></textarea>
+
+            {% else %}
+                <input type="{{ field.type }}" id="{{ field.name }}" name="{{ field.name }}" required>
+            {% endif %}
+
+        {% endfor %}
+        <button type="submit">Trimite</button>
+    </form>
+</div>
+
+<script>
+function autofillFields() {
+    const email = document.getElementById("email").value.trim();
+    if (email === "") return;
+
+    fetch(`/autocomplete?email=${encodeURIComponent(email)}`)
+        .then(response => response.json())
+        .then(data => {
+            for (const key in data) {
+                const field = document.getElementById(key);
+
+                // Verifică dacă câmpul există și nu este textarea
+                if (field && field.tagName !== "TEXTAREA") {
+                    field.value = data[key];
+                }
+            }
+        });
+}
+</script>
+
+
+
 </body>
 </html>
